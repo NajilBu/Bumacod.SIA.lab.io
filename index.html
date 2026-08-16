@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Face Recognition & Database - SIA Laboratory</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- face-api.js CDN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <div class="container">
+    
+    <!-- Top Header Bar (Face Recognition System Only) -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-icon"><i class="fa-solid fa-user-gear"></i></div>
+        <div>
+          <h1>Face Recognition Database System</h1>
+          <p class="subtitle">System Integration & Architecture • MySQL + Face-API.js</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="btn-open-gallery" class="btn btn-gallery">
+          <i class="fa-solid fa-images"></i> Gallery (<span id="db-count-badge">0</span>)
+        </button>
+        <div id="live-clock" class="clock-display">00:00:00</div>
+      </div>
+    </header>
+
+    <!-- Centered Main Layout -->
+    <main class="center-main-layout">
+
+      <!-- 1. Top Card: Camera View -->
+      <section class="card face-card-centered">
+        <div class="card-header">
+          <h2><i class="fa-solid fa-camera-retro"></i> Live AI Face Recognition</h2>
+          <span class="status-pill" id="ai-status">Initializing AI...</span>
+        </div>
+
+        <div class="video-container-large">
+          <video id="webcam" autoplay muted playsinline></video>
+          <canvas id="face-canvas"></canvas>
+          <div class="scan-laser"></div>
+        </div>
+
+        <!-- Controls & Recognition Status Label -->
+        <div class="action-bar-centered">
+          <button id="btn-camera" class="btn btn-primary">
+            <i class="fa-solid fa-video"></i> Start Camera
+          </button>
+
+          <!-- Live Recognition Status Label -->
+          <div id="reco-label" class="reco-label-box status-waiting">
+            <i class="fa-solid fa-user-tag"></i> 
+            <span>Recognized: <strong id="reco-name">Camera Off</strong></span>
+          </div>
+        </div>
+
+        <div id="face-feedback" class="feedback-box">Click "Start Camera" to enable real-time facial recognition.</div>
+      </section>
+
+      <!-- 2. Card Below Camera: Registration Form -->
+      <section class="card register-card-centered">
+        <div class="card-header">
+          <h2><i class="fa-solid fa-user-plus"></i> Register Face to Database</h2>
+        </div>
+
+        <form id="register-form" onsubmit="return false;" class="inline-form-name-only">
+          <div class="form-group flex-grow">
+            <label for="student-name" class="input-label"><i class="fa-solid fa-user"></i> Enter Full Name:</label>
+            <input type="text" id="student-name" class="text-input-field" placeholder="e.g. Najil Bumacod" required>
+          </div>
+
+          <div class="form-group form-btn-cell">
+            <button id="btn-register-face" class="btn btn-success" disabled>
+              <i class="fa-solid fa-floppy-disk"></i> Capture Face & Save to MySQL
+            </button>
+          </div>
+        </form>
+
+        <div id="reg-msg" class="feedback-box" style="margin-top: 0.8rem;">
+          Start camera first, enter your name, then click save.
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Modal for Registered Gallery -->
+  <div id="gallery-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-users"></i> Registered Database Profiles</h3>
+        <button id="btn-close-gallery" class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="students-gallery" class="students-grid-modal">
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Loading database records...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
