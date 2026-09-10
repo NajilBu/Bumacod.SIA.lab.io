@@ -35,6 +35,13 @@ try {
         // Column image_data already exists
     }
 
+    // Migration helper 2: Drop old unique student_id_num index constraint to allow keyless inserts!
+    try {
+        $pdo->exec("ALTER TABLE `students` DROP INDEX `student_id_num`;");
+    } catch (PDOException $ex) {
+        // Index student_id_num does not exist or was already dropped
+    }
+
 } catch (PDOException $e) {
     header('Content-Type: application/json');
     http_response_code(500);
