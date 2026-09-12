@@ -1,0 +1,12 @@
+services:
+  product-service:
+    build: ./product-service
+    ports:
+      - "3002:3002"
+
+  user-service:
+    build: ./user-service
+    ports:
+      - "3001:3001"
+    depends_on:
+      - product-service
